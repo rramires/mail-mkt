@@ -9,14 +9,20 @@ import accountsController from "../controllers/accountsController";
 const router = Router();
 
 /**
- * GET accounts 
+ * GET All accounts 
  */
-router.get('/', accountsController.getAccounts);
+router.get('/accounts', accountsController.getAllAccounts);
 
 
 /**
- * POST accounts 
+ * GET account by ID
  */
-router.post('/', accountsController.addAccounts);
+router.get('/accounts/:id', accountsController.getAccountById);
+
+
+/**
+ * POST add new account
+ */
+router.post('/accounts', accountsController.addAccount);
 //
 export default router;

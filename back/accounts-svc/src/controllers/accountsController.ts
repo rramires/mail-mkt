@@ -8,18 +8,44 @@ import { IAccount } from "../models/accountsModel";
 const accounts: IAccount[] = [];
 
 /**
- * Return accounts
+ * Return All accounts
  */
-function getAccounts(req: Request, res: Response, next: any){
-    //
+function getAllAccounts(req: Request, res: Response, next: any){
+    // 200 OK + json
     res.json(accounts);
+}
+
+
+/**
+ * Return account filtered by ID
+ */
+function getAccountById(req: Request, res: Response, next: any){
+    try{
+        // get id
+        const id = parseInt(req.params.id);
+        // get index
+        const index = accounts.findIndex(item => item.id === id);
+        if(index === -1){
+            // 404 Not Found
+            res.status(404).end();
+        }
+        else{
+            // 200 OK + json
+            res.json(accounts[0]);
+        }
+    }
+    catch(error){
+        console.log(error);
+        // 400 bad request
+        res.status(400).end();
+    }
 }
 
 
 /**
  * Add new account
  */
-function addAccounts(req: Request, res: Response, next: any){
+function addAccount(req: Request, res: Response, next: any){
     try{
         // cast body to type
         const newAccount = req.body as IAccount;
@@ -36,6 +62,7 @@ function addAccounts(req: Request, res: Response, next: any){
 }
 //
 export default {
-    getAccounts,
-    addAccounts
+    getAllAccounts,
+    getAccountById,
+    addAccount
 }
