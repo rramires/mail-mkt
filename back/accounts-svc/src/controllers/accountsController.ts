@@ -23,6 +23,9 @@ function getAccountById(req: Request, res: Response, next: any){
     try{
         // get id
         const id = parseInt(req.params.id);
+        if(!id){
+            throw new Error('ID is invalid format.');
+        }
         // get index
         const index = accounts.findIndex(item => item.id === id);
         if(index === -1){
