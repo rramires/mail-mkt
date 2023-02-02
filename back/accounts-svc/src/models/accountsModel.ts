@@ -15,8 +15,7 @@ export interface IAccount{
 const accountSchema = Joi.object({
     id: Joi.number()
            .integer()
-           .min(1)
-           .required(),
+           .min(1),
     name: Joi.string()
              .alphanum()
              .min(3)
