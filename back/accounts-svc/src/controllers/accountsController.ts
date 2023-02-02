@@ -38,7 +38,6 @@ function getAccountById(req: Request, res: Response, next: any){
         }
     }
     catch(error){
-        console.log(error);
         // 400 bad request
         res.status(400).end();
     }
@@ -58,7 +57,6 @@ function addAccount(req: Request, res: Response, next: any){
         res.status(201).json(newAccount);
     }
     catch(error){
-        console.log(error);
         // 400 bad request
         res.status(400).end();
     }
@@ -75,16 +73,10 @@ function setAccount(req: Request, res: Response, next: any){
         if(!id){
             throw new Error('ID is invalid format.');
         }
-
-        console.log('Aqui... ID: ', id);
-
         // cast body to type
         const accountParams = req.body as IAccount;
         // get index
         const index = accounts.findIndex(item => item.id === id);
-
-        console.log('Aqui... INDEX: ', index, accounts);
-
         if(index === -1){
             // 404 Not Found
             res.status(404).end();
@@ -112,7 +104,47 @@ function setAccount(req: Request, res: Response, next: any){
         }
     }
     catch(error){
-        console.log(error);
+        // 400 bad request
+        res.status(400).end();
+    }
+}
+
+
+/**
+ * Check login credentials
+ */
+function loginAccount(req: Request, res: Response, next: any){
+    try{
+        // cast body to type
+        const loginAccount = req.body as IAccount;
+        // get index
+        const index = accounts.findIndex(item => (item.email === loginAccount.email && 
+                                                  item.password === loginAccount.password));
+        if(index === -1){
+            // 401 Unauthorized
+            res.status(401).end();
+        }
+        else{
+            // 200 OK + json
+            res.json({ auth: true, token: {} })
+        }
+    }
+    catch(error){
+        // 400 bad request
+        res.status(400).end();
+    }
+}
+
+
+/**
+ * Check login credentials
+ */
+function logoutAccount(req: Request, res: Response, next: any){
+    try{
+        // 200 OK + json
+        res.json({ auth: false, token: null });
+    }
+    catch(error){
         // 400 bad request
         res.status(400).end();
     }
@@ -122,5 +154,7 @@ export default {
     getAllAccounts,
     getAccountById,
     addAccount,
-    setAccount
+    setAccount,
+    loginAccount,
+    logoutAccount
 }

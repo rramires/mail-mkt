@@ -33,7 +33,21 @@ const accountSchema = Joi.object({
                .min(100)
                .max(400)
 });
+
+
+const loginSchema = Joi.object({
+    email: Joi.string()
+              .min(8)
+              .max(150)
+              .email()
+              .required(),
+    password: Joi.string()
+                 .min(6)
+                 .max(64)
+                 .required()
+});
 //
 export { 
-    accountSchema 
+    accountSchema,
+    loginSchema
 }
