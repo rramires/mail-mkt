@@ -17,7 +17,6 @@ const accountSchema = Joi.object({
            .integer()
            .min(1),
     name: Joi.string()
-             .alphanum()
              .min(3)
              .required(),
     email: Joi.string()
@@ -26,7 +25,6 @@ const accountSchema = Joi.object({
               .email()
               .required(),
     password: Joi.string()
-                 .alphanum()
                  .min(6)
                  .max(64)
                  .required(),

@@ -73,11 +73,12 @@ describe('Testing account routes', () => {
         }
         // call http method
         const result = await request(app)
-                                .patch('/accounts/abc') // inexistent ID
+                                .patch('/accounts/-1') // inexistent ID
                                 .send(payload);
         // check 
         expect(result.status).toEqual(404);
     });
+
 
     it('PATCH /accounts/:id - Should return 400', async () =>{
         // mock data
@@ -119,5 +120,5 @@ describe('Testing account routes', () => {
                                 .get('/accounts/abc'); // invalid ID
         // check 
         expect(result.status).toEqual(400);
-    });
+    }); 
 });

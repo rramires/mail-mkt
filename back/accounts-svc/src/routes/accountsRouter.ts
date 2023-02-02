@@ -42,5 +42,11 @@ router.get('/accounts/:id', accountsController.getAccountById);
  * POST add new account
  */
 router.post('/accounts', validateAccountSchema, accountsController.addAccount);
+
+
+/**
+ * PATCH update account
+ */
+router.patch('/accounts/:id', validateAccountSchema, accountsController.setAccount);
 //
 export default router;
