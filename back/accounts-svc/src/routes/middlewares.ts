@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import Joi from "joi";
 //
-import { accountSchema, loginSchema } from "../models/accountSchema";
+import { accountSchema, accountUpdateSchema, loginSchema } from "../models/accountSchema";
 
 
 function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any){
@@ -20,18 +20,25 @@ function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Respon
 }
 
 
-function validateAccountSchema(req: Request, res: Response, next: any){
+function validateAccount(req: Request, res: Response, next: any){
     // validate
     return validateSchema(accountSchema, req, res, next);
 }
 
 
-function validateLoginSchema(req: Request, res: Response, next: any){
+function validateUpdateAccount(req: Request, res: Response, next: any){
+    // validate
+    return validateSchema(accountUpdateSchema, req, res, next);
+}
+
+
+function validateLogin(req: Request, res: Response, next: any){
     // validate
     return validateSchema(loginSchema, req, res, next);
 }
 //
 export { 
-    validateAccountSchema,
-    validateLoginSchema
+    validateAccount,
+    validateUpdateAccount,
+    validateLogin
 }

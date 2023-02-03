@@ -1,58 +1,30 @@
 // imports
 import { Request, Response } from "express";
+import auth from './../auth';
+//
 import { IAccount } from "../models/account";
+import repository from '../models/accountModel';
 
 /**
  * accounts array
  */
 const accounts: IAccount[] = [];
 
-/**
- * Return All accounts
- */
-function getAllAccounts(req: Request, res: Response, next: any){
-    // 200 OK + json
-    res.json(accounts);
-}
-
-
-/**
- * Return account filtered by ID
- */
-function getAccountById(req: Request, res: Response, next: any){
-    try{
-        // get id
-        const id = parseInt(req.params.id);
-        if(!id){
-            throw new Error('ID is invalid format.');
-        }
-        // get index
-        const index = accounts.findIndex(item => item.id === id);
-        if(index === -1){
-            // 404 Not Found
-            res.status(404).end();
-        }
-        else{
-            // 200 OK + json
-            res.json(accounts[0]);
-        }
-    }
-    catch(error){
-        // 400 bad request
-        res.status(400).end();
-    }
-}
-
 
 /**
  * Add new account
  */
-function addAccount(req: Request, res: Response, next: any){
+async function addAccount(req: Request, res: Response, next: any){
     try{
         // cast body to type
         const newAccount = req.body as IAccount;
+        // hash password
+        newAccount.password = auth.hashPassword(newAccount.password);
         // add
-        accounts.push(newAccount);
+        const result = await repository.add(newAccount);
+        // get id
+        newAccount.id = result.id;
+        newAccount.password = '';
         // 201 Created
         res.status(201).json(newAccount);
     }
@@ -64,9 +36,53 @@ function addAccount(req: Request, res: Response, next: any){
 
 
 /**
+ * Return All accounts
+ */
+async function getAllAccounts(req: Request, res: Response, next: any){
+    // get all accounts
+    const accounts = await repository.findAll();
+    // 200 OK + json
+    res.json(accounts.map(item => {
+        item.password = '';
+        return item;
+    }));
+}
+
+
+/**
+ * Return account filtered by ID
+ */
+async function getAccountById(req: Request, res: Response, next: any){
+    try{
+        // get id
+        const id = parseInt(req.params.id);
+        if(!id){
+            throw new Error('ID is invalid format.');
+        }
+        // get account
+        const account = await repository.findById(id);
+
+        if(account === null){
+            // 404 Not Found
+            res.status(404).end();
+        }
+        else{
+            account.password = '';
+            // 200 OK + json
+            res.json(account);
+        }
+    }
+    catch(error){
+        // 400 bad request
+        res.status(400).end();
+    }
+}
+
+
+/**
  * Update account
  */
-function setAccount(req: Request, res: Response, next: any){
+async function setAccount(req: Request, res: Response, next: any){
     try{
         // get id
         const id = parseInt(req.params.id);
@@ -75,33 +91,11 @@ function setAccount(req: Request, res: Response, next: any){
         }
         // cast body to type
         const accountParams = req.body as IAccount;
-        // get index
-        const index = accounts.findIndex(item => item.id === id);
-        if(index === -1){
-            // 404 Not Found
-            res.status(404).end();
-        }
-        else{
-            // get register
-            const originalAccount = accounts[index] as IAccount;
-            // update if necessary
-            if(accountParams.name){
-                originalAccount.name = accountParams.name;
-            }
-            if(accountParams.email){
-                originalAccount.email = accountParams.email;
-            }
-            if(accountParams.password){
-                originalAccount.password = accountParams.password;
-            }
-            if(accountParams.status){
-                originalAccount.status = accountParams.status;
-            }
-            // update
-            accounts[index] = originalAccount;
-            // 201 Created
-            res.status(200).json(originalAccount);
-        }
+        // update
+        const updatedAccount = await repository.set(id, accountParams);
+        updatedAccount.password = '';
+        // 200 OK + json
+        res.status(200).json(updatedAccount);
     }
     catch(error){
         // 400 bad request

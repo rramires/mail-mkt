@@ -21,7 +21,10 @@ const accountSchema = Joi.object({
     status: Joi.number()
                .integer()
                .min(100)
-               .max(400)
+               .max(400),
+    domain: Joi.string()
+               .min(5)
+               .max(150)
 });
 
 
@@ -36,8 +39,26 @@ const loginSchema = Joi.object({
                  .max(64)
                  .required()
 });
+
+
+const accountUpdateSchema = Joi.object({
+    
+    name: Joi.string()
+             .min(3),
+    password: Joi.string()
+                 .min(6)
+                 .max(64),
+    status: Joi.number()
+               .integer()
+               .min(100)
+               .max(400),
+    domain: Joi.string()
+               .min(5)
+               .max(150)
+});
 //
 export { 
     accountSchema,
-    loginSchema
+    loginSchema,
+    accountUpdateSchema
 }

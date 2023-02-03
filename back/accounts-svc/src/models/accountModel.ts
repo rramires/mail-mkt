@@ -10,7 +10,7 @@ interface AccountCreationAttributes extends Optional<IAccount, "id">{}
 export interface AccountModel extends Model<IAccount, AccountCreationAttributes>, IAccount{}
 
 // define table fields
-export default database.define<AccountModel>('account', {
+const accountModel = database.define<AccountModel>('account', {
     id: {
         type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
@@ -40,3 +40,59 @@ export default database.define<AccountModel>('account', {
         allowNull: true
     }
 });
+
+
+/**
+ * Add NEW account
+ */
+function add(account: IAccount){
+    return accountModel.create(account);
+}
+
+
+/**
+ * Return All accounts
+ */
+function findAll(){
+    return accountModel.findAll<AccountModel>();
+}
+
+
+/**
+ * Return acount filtered by ID
+ */
+function findById(id: number){
+    return accountModel.findByPk<AccountModel>(id);
+}
+
+
+/**
+ * Update account
+ */
+async function set(id: number, account: IAccount){
+    const originalAccount = await findById(id);
+
+    if(originalAccount){
+        originalAccount.name = account.name;
+        originalAccount.status = account.status;
+        originalAccount.domain = account.domain;
+        //
+        if(account.password !== ''){
+            originalAccount.password = account.password;
+        }
+        // save
+        await originalAccount.save();
+        return originalAccount;
+    }
+    else{
+        throw new Error(`Account not found.`); 
+    }
+}
+
+
+export default {
+    add,
+    findAll,
+    findById,
+    set
+}
