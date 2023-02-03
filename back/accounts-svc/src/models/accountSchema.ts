@@ -1,15 +1,5 @@
 // imports
 import Joi from 'joi';
-//
-import { AccountStatus } from './accountStatus';
-
-export interface IAccount{
-    id: number,
-    name: string,
-    email: string,
-    password: string,
-    status: AccountStatus
-}
 
 
 const accountSchema = Joi.object({

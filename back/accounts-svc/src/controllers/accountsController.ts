@@ -1,6 +1,6 @@
 // imports
 import { Request, Response } from "express";
-import { IAccount } from "../models/accountsModel";
+import { IAccount } from "../models/account";
 
 /**
  * accounts array
