@@ -51,22 +51,6 @@ function add(account: IAccount){
 
 
 /**
- * Return All accounts
- */
-function findAll(){
-    return accountModel.findAll<AccountModel>();
-}
-
-
-/**
- * Return acount filtered by ID
- */
-function findById(id: number){
-    return accountModel.findByPk<AccountModel>(id);
-}
-
-
-/**
  * Update account
  */
 async function set(id: number, account: IAccount){
@@ -90,9 +74,33 @@ async function set(id: number, account: IAccount){
 }
 
 
+/**
+ * Return All accounts
+ */
+function findAll(){
+    return accountModel.findAll<AccountModel>();
+}
+
+
+/**
+ * Return acount filtered by ID
+ */
+function findById(id: number){
+    return accountModel.findByPk<AccountModel>(id);
+}
+
+
+/**
+ * Return acount filtered by Email
+ */
+function findByEmail(email: string){
+    return accountModel.findOne<AccountModel>({ where: { email } });
+}
+//
 export default {
     add,
+    set,
     findAll,
     findById,
-    set
+    findByEmail
 }

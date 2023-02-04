@@ -6,12 +6,6 @@ import { IAccount } from "../models/account";
 import repository from '../models/accountModel';
 
 /**
- * accounts array
- */
-const accounts: IAccount[] = [];
-
-
-/**
  * Add new account
  */
 async function addAccount(req: Request, res: Response, next: any){
@@ -107,21 +101,25 @@ async function setAccount(req: Request, res: Response, next: any){
 /**
  * Check login credentials
  */
-function loginAccount(req: Request, res: Response, next: any){
+async function loginAccount(req: Request, res: Response, next: any){
     try{
         // cast body to type
         const loginAccount = req.body as IAccount;
-        // get index
-        const index = accounts.findIndex(item => (item.email === loginAccount.email && 
-                                                  item.password === loginAccount.password));
-        if(index === -1){
-            // 401 Unauthorized
-            res.status(401).end();
+        // get 
+        const account = await repository.findByEmail(loginAccount.email);
+        //
+        if(account !== null){
+            //
+            const isValid = await auth.comparePassword(loginAccount.password, account.password);
+            if(isValid){
+                // generate jwt token
+                const token = await auth.sign(account.id!);
+                 // 200 OK + json
+                return res.json({ auth: true, token });
+            }
         }
-        else{
-            // 200 OK + json
-            res.json({ auth: true, token: {} })
-        }
+        // 401 Unauthorized
+        res.status(401).end();
     }
     catch(error){
         // 400 bad request

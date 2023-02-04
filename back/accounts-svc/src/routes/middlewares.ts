@@ -1,6 +1,7 @@
 // imports
 import { Request, Response } from "express";
 import Joi from "joi";
+import auth from "../auth";
 //
 import { accountSchema, accountUpdateSchema, loginSchema } from "../models/accountSchema";
 
@@ -36,9 +37,35 @@ function validateLogin(req: Request, res: Response, next: any){
     // validate
     return validateSchema(loginSchema, req, res, next);
 }
+
+
+async function validateAuth(req: Request, res: Response, next: any){
+    try{
+        // get token
+        const token = req.headers['x-access-token'] as string;
+        // verify
+        const payload = await auth.verify(token);
+        if(payload){
+            // set payload for next steps
+            res.locals.payload = payload;
+            // continue
+            next();
+        }
+        else{
+            // 401 Unauthorized
+            res.status(401).end();
+        }
+    }
+    catch(error){
+        console.log(`validateAuth: ${error}`);
+        // 400 Bad Request
+        res.status(400).end();
+    }
+}
 //
 export { 
     validateAccount,
     validateUpdateAccount,
-    validateLogin
+    validateLogin,
+    validateAuth
 }

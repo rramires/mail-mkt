@@ -2,7 +2,7 @@
 import { Router } from "express";
 //
 import accountsController from "../controllers/accountsController";
-import { validateAccount, validateUpdateAccount, validateLogin } from './middlewares';
+import { validateAccount, validateUpdateAccount, validateLogin, validateAuth } from './middlewares';
 
 
 /**
@@ -13,13 +13,13 @@ const router = Router();
 /**
  * GET All accounts 
  */
-router.get('/accounts', accountsController.getAllAccounts);
+router.get('/accounts', validateAuth, accountsController.getAllAccounts);
 
 
 /**
  * GET account by ID
  */
-router.get('/accounts/:id', accountsController.getAccountById);
+router.get('/accounts/:id', validateAuth, accountsController.getAccountById);
 
 
 /**
@@ -31,7 +31,7 @@ router.post('/accounts', validateAccount, accountsController.addAccount);
 /**
  * PATCH update account
  */
-router.patch('/accounts/:id', validateUpdateAccount, accountsController.setAccount);
+router.patch('/accounts/:id', validateAuth, validateUpdateAccount, accountsController.setAccount);
 
 
 /**
