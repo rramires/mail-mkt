@@ -8,15 +8,16 @@ const accountSchema = Joi.object({
            .min(1),
     name: Joi.string()
              .min(3)
+             .max(160)
              .required(),
     email: Joi.string()
               .min(8)
-              .max(150)
+              .max(160)
               .email()
               .required(),
     password: Joi.string()
                  .min(6)
-                 .max(64)
+                 .max(60)
                  .required(),
     status: Joi.number()
                .integer()

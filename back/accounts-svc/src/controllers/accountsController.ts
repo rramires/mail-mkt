@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import auth from './../auth';
 //
 import { IAccount } from "../models/account";
-import repository from '../models/accountModel';
+import repository from '../models/accountRepository';
 
 /**
  * Add new account
