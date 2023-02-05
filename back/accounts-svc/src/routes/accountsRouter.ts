@@ -2,7 +2,7 @@
 import { Router } from "express";
 //
 import accountsController from "../controllers/accountsController";
-import { validateAccount, validateUpdateAccount, validateLogin, validateAuth } from './middlewares';
+import { validateAccountSchema, validateUpdateAccountSchema, validateLoginSchema, validateAuth } from './middlewares';
 
 
 /**
@@ -25,19 +25,19 @@ router.get('/accounts/:id', validateAuth, accountsController.getAccountById);
 /**
  * POST add new account
  */
-router.post('/accounts', validateAccount, accountsController.addAccount);
+router.post('/accounts', validateAccountSchema, accountsController.addAccount);
 
 
 /**
  * PATCH update account
  */
-router.patch('/accounts/:id', validateAuth, validateUpdateAccount, accountsController.setAccount);
+router.patch('/accounts/:id', validateAuth, validateUpdateAccountSchema, accountsController.setAccount);
 
 
 /**
  * POST to check login credentials
  */
-router.post('/accounts/login', validateLogin, accountsController.loginAccount);
+router.post('/accounts/login', validateLoginSchema, accountsController.loginAccount);
 
 
 /**
