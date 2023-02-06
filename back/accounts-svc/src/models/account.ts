@@ -6,7 +6,7 @@ export interface IAccount{
     name: string,
     email: string,
     password: string,
-    status: AccountStatus,
+    status?: AccountStatus,
     domain: string
 }
 

@@ -1,4 +1,5 @@
 // imports
+import { DestroyOptions } from 'sequelize';
 import { IAccount } from './account';
 import accountModel, { IAccountModel } from './accountModel'
 
@@ -35,6 +36,14 @@ async function set(id: number, account: IAccount){
 
 
 /**
+ * Remove account
+ */
+function remove(id: number){
+    return accountModel.destroy({ where: { id } } as DestroyOptions<IAccount>);
+}
+
+
+/**
  * Return All accounts
  */
 function findAll(){
@@ -60,6 +69,7 @@ function findByEmail(email: string){
 export default {
     add,
     set,
+    remove,
     findAll,
     findById,
     findByEmail

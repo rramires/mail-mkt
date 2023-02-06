@@ -1,39 +1,51 @@
 // imports
 import request from 'supertest';
 import app from "../src/app";
+import { IAccount } from '../src/models/account';
+import repository from '../src/models/accountRepository'
 //
+const emailTest = 'jest1@test.com';
+const passTest = 'abc123'; 
+const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
+// aux
+let idTest = 0;
+// 
+beforeAll(async () => {
+    // mocking
+    const payload: IAccount = {
+        name: 'Jest1',
+        email: emailTest,
+        password: hashPassTest,
+        domain: 'prefix.domain.test'
+    }
+    // call http method - add test account
+    const result = await repository.add(payload);
+    idTest = result.id!;
+});
+//
+afterAll(async () => {
+    // call http method - remove test account
+    await repository.remove(idTest);
+});
 //
 describe('Testing authentication routes', () => {
     //
     it('POST /accounts/login - Should return 200 OK', async () =>{
-        // mocking
-        const payloadAdd = {
-            id: 1,
-            name: 'Fulano',
-            email: 'fula@test.com',
-            password: 'abc123',
-            status: 100
-        }
-        // call http method
-        await request(app)
-                    .post('/accounts/')
-                    .send(payloadAdd);
-        //
         // testing
-        const payloadLogin = {
-            email: 'fula@test.com',
-            password: 'abc123'
+        const payload = {
+            email: emailTest,
+            password: passTest
         }
         // call http method
         const result = await request(app)
                                 .post('/accounts/login')
-                                .send(payloadLogin);
+                                .send(payload);
         // check 
         expect(result.status).toEqual(200);
         expect(result.body.auth).toBeTruthy();
         expect(result.body.token).toBeTruthy();
-    });
-
+    }); 
+    
     it('POST /accounts/login - Should return 401 Unauthorized', async () =>{
         // mock data
         const payload = {
@@ -61,7 +73,7 @@ describe('Testing authentication routes', () => {
         expect(result.status).toEqual(422);
     });
 
-
+    
     it('POST /accounts/logout - Should return 200 OK', async () =>{
         // call http method
         const result = await request(app)
