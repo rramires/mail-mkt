@@ -4,7 +4,7 @@ import app from "../src/app";
 import { IAccount } from '../src/models/account';
 import repository from '../src/models/accountRepository'
 //
-const emailTest = 'jest1@test.com';
+const emailTest = 'jest@test.com';
 const passTest = 'abc123'; 
 const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
 // aux
@@ -13,7 +13,7 @@ let idTest = 0;
 beforeAll(async () => {
     // mocking
     const payload: IAccount = {
-        name: 'Jest1',
+        name: 'Jest',
         email: emailTest,
         password: hashPassTest,
         domain: 'prefix.domain.test'

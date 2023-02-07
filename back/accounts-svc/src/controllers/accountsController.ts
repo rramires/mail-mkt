@@ -87,9 +87,15 @@ async function setAccount(req: Request, res: Response, next: any){
         const accountParams = req.body as IAccount;
         // update
         const updatedAccount = await repository.set(id, accountParams);
-        updatedAccount.password = '';
-        // 200 OK + json
-        res.status(200).json(updatedAccount);
+        if(updatedAccount){
+            updatedAccount.password = '';
+            // 200 OK + json
+            res.status(200).json(updatedAccount);
+        }
+        else{
+            // 404 Not Found
+            res.status(404).end();
+        }
     }
     catch(error){
         // 400 bad request

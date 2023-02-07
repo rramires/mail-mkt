@@ -18,10 +18,15 @@ async function set(id: number, account: IAccount){
     const originalAccount = await findById(id);
 
     if(originalAccount){
-        originalAccount.name = account.name;
-        originalAccount.status = account.status;
-        originalAccount.domain = account.domain;
-        //
+        if(account.name !== ''){
+            originalAccount.name = account.name;
+        }
+        if(account.status){
+            originalAccount.status = account.status;
+        }
+        if(account.domain !== ''){
+            originalAccount.domain = account.domain;
+        }
         if(account.password !== ''){
             originalAccount.password = account.password;
         }
@@ -30,7 +35,7 @@ async function set(id: number, account: IAccount){
         return originalAccount;
     }
     else{
-        throw new Error(`Account not found.`); 
+        return null;
     }
 }
 
