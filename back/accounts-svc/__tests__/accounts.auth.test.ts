@@ -4,7 +4,7 @@ import app from "../src/app";
 import { IAccount } from '../src/models/account';
 import repository from '../src/models/accountRepository'
 //
-const emailTest = 'jest@test.com';
+const emailTest = 'jest@accounts.auth.com';
 const passTest = 'abc123'; 
 const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
 // aux

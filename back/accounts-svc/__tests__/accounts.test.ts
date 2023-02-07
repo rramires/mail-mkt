@@ -5,7 +5,7 @@ import { IAccount } from '../src/models/account';
 import repository from '../src/models/accountRepository'
 import auth from '../src/auth';
 //
-const emailTest = 'jest@test.com';
+const emailTest = 'jest@accounts.com';
 const passTest = 'abc123'; 
 const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
 // aux
@@ -13,16 +13,6 @@ let idTest = 0;
 let token = '';
 // 
 beforeAll(async () => {
-    // mocking
-    /*const payload: IAccount = {
-        name: 'Jest',
-        email: emailTest,
-        password: hashPassTest,
-        domain: 'prefix.domain.test'
-    }
-    // call http method - add test account
-    const result = await repository.add(payload);
-    idTest = result.id!;*/
     // generate mock authorization token
     token = auth.sign(idTest);
 });
