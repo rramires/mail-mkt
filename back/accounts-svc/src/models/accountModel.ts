@@ -1,7 +1,7 @@
 // imports
 import Sequelize, { Model, Optional } from 'sequelize';
 //
-import database from '../db';
+import database from 'mm-commons/data/db';
 import { IAccount } from './account';
 
 // AccountCreationAttributes<IAccount, optional fields>
