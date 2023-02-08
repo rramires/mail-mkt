@@ -1,8 +1,10 @@
 // imports
 import { Router } from "express";
 //
+import middlewaresCommons from 'mm-commons/api/routes/middlewares';
+import { validateAccountSchema, validateUpdateAccountSchema, validateLoginSchema } from './middlewares';
 import accountsController from "../controllers/accountsController";
-import { validateAccountSchema, validateUpdateAccountSchema, validateLoginSchema, validateAuth } from './middlewares';
+
 //
 
 
@@ -14,13 +16,13 @@ const router = Router();
 /**
  * GET All accounts 
  */
-router.get('/accounts', validateAuth, accountsController.getAllAccounts);
+router.get('/accounts', middlewaresCommons.validateAuth, accountsController.getAllAccounts);
 
 
 /**
  * GET account by ID
  */
-router.get('/accounts/:id', validateAuth, accountsController.getAccountById);
+router.get('/accounts/:id', middlewaresCommons.validateAuth, accountsController.getAccountById);
 
 
 /**
@@ -32,7 +34,7 @@ router.post('/accounts', validateAccountSchema, accountsController.addAccount);
 /**
  * PATCH update account
  */
-router.patch('/accounts/:id', validateAuth, validateUpdateAccountSchema, accountsController.setAccount);
+router.patch('/accounts/:id', middlewaresCommons.validateAuth, validateUpdateAccountSchema, accountsController.setAccount);
 
 
 /**

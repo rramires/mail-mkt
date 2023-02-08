@@ -1,19 +1,16 @@
 // imports
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
-import jwt, { VerifyOptions } from 'jsonwebtoken';
-import { number } from 'joi';
+import jwt from 'jsonwebtoken';
+//
+import authCommons, { Token } from 'mm-commons/api/auth';
 //
 // read RSA keys
 const privateKey = fs.readFileSync('./keys/private.key', 'utf-8');
-const publicKey = fs.readFileSync('./keys/public.key', 'utf-8');
 // read expire time
 const jwtExpires = parseInt(`${process.env.JWT_EXPIRES}`);
 // encrypt algorithm
 const jwtAlgorithm = "RS256";
-
-// create token type
-type Token = { accountId: number };
 
 
 /**
@@ -45,14 +42,7 @@ function sign(accountId: number){
  * Verify jwt token
  */
 async function verify(token: string){
-    try{
-        const decoded = await jwt.verify(token, publicKey, { algorithm: [jwtAlgorithm] } as VerifyOptions) as Token;
-        return { accountId: decoded.accountId };
-    }
-    catch(error){
-        console.log(error);
-        return null;
-    }
+    return authCommons.verify(token);
 }
 //
 export default{

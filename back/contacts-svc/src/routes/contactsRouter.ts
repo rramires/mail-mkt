@@ -9,7 +9,7 @@ import { Router } from "express";
 const router = Router();
 
 /**
- * GET All accounts 
+ * GET contacts by ID ()
  */
 //router.get('/contacts', validateAuth, accountsController.getAllAccounts);
 //
