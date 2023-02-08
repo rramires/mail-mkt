@@ -3,6 +3,8 @@ import { Router } from "express";
 //
 import accountsController from "../controllers/accountsController";
 import { validateAccountSchema, validateUpdateAccountSchema, validateLoginSchema, validateAuth } from './middlewares';
+//
+import calc from 'mm-commons/calc';
 
 
 /**
@@ -44,5 +46,17 @@ router.post('/accounts/login', validateLoginSchema, accountsController.loginAcco
  * POST to logout
  */
 router.post('/accounts/logout', accountsController.logoutAccount);
+
+
+/**
+ * Test __commons__ config
+ */
+router.get('/calc/:v1/:v2', (req, res, next) => {
+    const v1 = parseInt(`${req.params.v1}`);
+    const v2 = parseInt(`${req.params.v2}`);
+    const result = calc(v1, v2);
+    console.log('sum: ', v1, '+', v2, '=', result);
+    res.json(result);
+});
 //
 export default router;

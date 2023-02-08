@@ -7,8 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "node -r dotenv/config ./dist/server",
-    "compile": "tsc && node -r dotenv/config ./dist/server",
+    "start": "tsc && ts-node -r dotenv/config -r tsconfig-paths/register ./dist/accounts-svc/src/server",
+    "compile": "tsc && ts-node -r dotenv/config -r tsconfig-paths/register ./dist/accounts-svc/src/server",
     "dev": "nodemon -e ts, json --ignore dist --exec \"npm run compile\"",
     "test": "jest"
   },
@@ -40,6 +40,7 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
     "typescript": "^4.9.5"
   }
 }
