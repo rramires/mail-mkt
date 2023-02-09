@@ -24,7 +24,9 @@ async function validateAuth(req: Request, res: Response, next: any){
         // verify
         const payload = await auth.verify(token);
         if(payload){
-            // set payload for next steps
+            //
+            // important!
+            // set payload for next steps and filters by accountId
             res.locals.payload = payload;
             // continue
             next();
