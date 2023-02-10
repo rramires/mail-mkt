@@ -1,7 +1,8 @@
 // imports
 import fs from 'fs';
-import jwt, { VerifyOptions } from 'jsonwebtoken';
 import path from 'path';
+import jwt, { VerifyOptions } from 'jsonwebtoken';
+
 //
 // read RSA keys
 const publicKey = fs.readFileSync(path.resolve(__dirname, '../../keys/public.key'), 'utf-8');
