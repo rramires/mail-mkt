@@ -1,8 +1,13 @@
 // imports
 import { Request, Response } from "express";
 import Joi from "joi";
-import auth from "../auth";
-//
+import auth, { Token } from "../auth";
+import controllerCommons from '../controllers/controller';
+
+
+/**
+ * Checks if the body is the same as the schema
+ */
 function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any){
     // validate
     const { error } = schema.validate(req.body);
@@ -17,6 +22,10 @@ function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Respon
     }
 }
 
+
+/**
+ * Check if you have authentication token
+ */
 async function validateAuth(req: Request, res: Response, next: any){
     try{
         // get token
@@ -42,8 +51,28 @@ async function validateAuth(req: Request, res: Response, next: any){
         res.status(400).end();
     }
 }
+
+
+/**
+ * Validate if request id is the same as token id
+ */
+function validateAuthId(req: Request, res: Response, next: any){
+    // get id from request
+    const id = parseInt(req.params.id);
+    // get token
+    const token = controllerCommons.getToken(res) as Token;
+    // ensures that only the account owner can delete
+    if(token.accountId !== id){
+        // 403 Forbidden
+        res.status(403).end();
+    }
+    else{
+        next();
+    }
+}
 //
 export default { 
+    validateSchema,
     validateAuth,
-    validateSchema
+    validateAuthId
 }

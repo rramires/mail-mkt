@@ -105,6 +105,28 @@ async function setAccount(req: Request, res: Response, next: any){
 
 
 /**
+ * Remove account filtered by ID
+ */
+async function deleteAccount(req: Request, res: Response, next: any){
+    try{
+        // get id
+        const id = parseInt(req.params.id);
+        if(!id){
+            throw new Error('ID is invalid format.');
+        }
+        // delete account
+        await repository.remove(id);
+        // 200 OK
+        res.status(200).end();
+    }
+    catch(error){
+        // 400 bad request
+        res.status(400).end();
+    }
+}
+
+
+/**
  * Check login credentials
  */
 async function loginAccount(req: Request, res: Response, next: any){
@@ -153,6 +175,7 @@ export default {
     getAccountById,
     addAccount,
     setAccount,
+    deleteAccount,
     loginAccount,
     logoutAccount
 }

@@ -1,14 +1,17 @@
 // imports
+import { jest, describe, expect, it, beforeAll, afterAll } from '@jest/globals';
 import request from 'supertest';
 import app from "../src/app";
 import { IAccount } from '../src/models/account';
-import repository from '../src/models/accountRepository'
+import repository from '../src/models/accountRepository';
+import auth from '../src/auth';
 //
 const emailTest = 'jest@accounts.auth.com';
 const passTest = 'abc123'; 
 const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
 // aux
-let idTest = 0;
+let idAccount = 0;
+let token = '';
 // 
 beforeAll(async () => {
     // mocking
@@ -20,12 +23,14 @@ beforeAll(async () => {
     }
     // call http method - add test account
     const result = await repository.add(payload);
-    idTest = result.id!;
+    idAccount = result.id!;
+    // generate mock authorization token
+    token = auth.sign(idAccount);
 });
 //
 afterAll(async () => {
     // call http method - remove test account
-    await repository.remove(idTest);
+    await repository.remove(idAccount);
 });
 //
 describe('Testing authentication routes', () => {
@@ -77,7 +82,8 @@ describe('Testing authentication routes', () => {
     it('POST /accounts/logout - Should return 200 OK', async () =>{
         // call http method
         const result = await request(app)
-                                .post('/accounts/logout');
+                                .post('/accounts/logout')
+                                .set('x-access-token', token);
         // check 
         expect(result.status).toEqual(200);
     });
