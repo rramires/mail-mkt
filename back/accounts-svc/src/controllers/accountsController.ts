@@ -135,9 +135,8 @@ async function loginAccount(req: Request, res: Response, next: any){
         const loginAccount = req.body as IAccount;
         // get 
         const account = await repository.findByEmail(loginAccount.email);
-        //
         if(account !== null){
-            //
+            // check password
             const isValid = await auth.comparePassword(loginAccount.password, account.password);
             if(isValid){
                 // generate jwt token

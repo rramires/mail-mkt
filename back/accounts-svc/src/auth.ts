@@ -6,9 +6,6 @@ import jwt from 'jsonwebtoken';
 //
 import authCommons, { Token } from 'mm-commons/api/auth';
 
-console.log('__dirname: ', __dirname);
-console.log('path: ', path.resolve(__dirname, '../keys/public.key'));
-
 //
 // read RSA keys
 const privateKey = fs.readFileSync(path.resolve(__dirname, '../keys/private.key'), 'utf-8');
