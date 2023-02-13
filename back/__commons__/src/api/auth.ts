@@ -1,11 +1,10 @@
 // imports
 import fs from 'fs';
-import path from 'path';
 import jwt, { VerifyOptions } from 'jsonwebtoken';
 
 //
 // read RSA keys
-const publicKey = fs.readFileSync(path.resolve(__dirname, '../../keys/public.key'), 'utf-8');
+const publicKey = fs.readFileSync('./../__commons__/keys/public.key', 'utf-8');
 // encrypt algorithm
 const jwtAlgorithm = "RS256";
 

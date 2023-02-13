@@ -38,8 +38,6 @@ beforeAll(async () => {
                                 email: emailTest,
                                 password: passTest
                             });
-
-    console.log('token: ', result.body.token);
     // get token
     token = result.body.token;
 });
