@@ -30,7 +30,7 @@ export default database.define<IContactModel>('contact', {
         allowNull: false
     },
     phone: {
-        type: Sequelize.STRING(16),
+        type: Sequelize.STRING(11),
         allowNull: true,
     },
     status: {
@@ -38,4 +38,9 @@ export default database.define<IContactModel>('contact', {
         allowNull: false,
         defaultValue: 100
     }
+}, {
+    indexes: [{
+        unique: true,
+        fields: ['accountId', 'email']
+    }]
 });

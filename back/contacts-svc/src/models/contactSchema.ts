@@ -1,0 +1,44 @@
+// imports
+import Joi from 'joi';
+
+
+const contactSchema = Joi.object({
+    id: Joi.number()
+           .integer()
+           .min(1),
+    accountId: Joi.number()
+           .integer()
+           .min(1),
+    name: Joi.string()
+             .min(3)
+             .max(160)
+             .required(),
+    email: Joi.string()
+              .min(8)
+              .max(160)
+              .email()
+              .required(),
+    phone: Joi.string()
+                .pattern(/^[0-9]{10,11}$/),
+    status: Joi.string()
+                .min(100)
+                .max(400)
+});
+
+
+const contactUpdateSchema = Joi.object({
+    name: Joi.string()
+             .min(3)
+             .max(160)
+             .required(),
+    phone: Joi.string()
+                 .pattern(/^[0-9]{10,11}$/),
+    status: Joi.string()
+                 .min(100)
+                 .max(400)
+});
+//
+export { 
+    contactSchema,
+    contactUpdateSchema
+}

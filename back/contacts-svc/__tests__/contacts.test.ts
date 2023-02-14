@@ -7,6 +7,7 @@ import { IContact } from '../src/models/contact';
 import repository from '../src/models/contactRepository'
 //
 const emailTest = 'jest@contacts.com';
+const emailTest2 = 'jest2@contacts.com';
 const passTest = 'abc123'; 
 // mock .env parameter
 process.env.JWT_EXPIRES='300';
@@ -15,11 +16,12 @@ process.env.JWT_EXPIRES='300';
 let idAccountTest = 0;
 let token = '';
 let idContactTest = 0;
+let idContactTest2 = 0;
 
 // 
 beforeAll(async () => {
     // mocking account
-    const testAccount = {
+    const payload = {
         name: 'Jest',
         email: emailTest,
         password: passTest,
@@ -28,7 +30,7 @@ beforeAll(async () => {
     // call http method - add test account
     const account = await request(accountsApp)
                             .post('/accounts')
-                            .send(testAccount);
+                            .send(payload);
     idAccountTest = account.body.id;
     // login
     const result = await request(accountsApp)
@@ -39,18 +41,6 @@ beforeAll(async () => {
                             });
     // get token
     token = result.body.token;
-    //
-    // mocking contact
-    const testContact = {
-        name: 'Jest',
-        email: emailTest,
-        phone: '4199999999',
-
-    } as IContact
-    // add test contact
-    const result2 = await repository.add(testContact, idAccountTest);
-    // set contact id
-    idContactTest = result2.id!;
 });
 //
 afterAll(async () => {
@@ -64,6 +54,76 @@ afterAll(async () => {
 describe('Testing contacts routes', () => {
     //
     // tests
+    it('POST /contacts/ - Should return 201 Created', async () => {
+        // payload
+        const payload = {
+            name: 'Jest',
+            email: emailTest,
+            phone: '4199998888',
+    
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .post('/contacts/')
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // set ID for next tests
+        idContactTest = result.body.id;
+        // check 
+        expect(result.status).toEqual(201);
+        expect(result.body.id).toBeTruthy();
+    });
+
+    // tests
+    it('POST /contacts/ - Should return 400 Bad Request', async () => {
+        // payload
+        const payload = {
+            name: 'Jest',
+            email: emailTest, // Same email breaks unique constraint in Database
+            phone: '4199998888',
+    
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .post('/contacts/')
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(400);
+    });
+
+    it('POST /contacts/ - Should return 401 Unauthorized', async () => {
+        // payload
+        const payload = {
+            name: 'Jest',
+            email: emailTest,
+            phone: '4199998888',
+    
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .post('/contacts/')
+                                .set('x-access-token', 'INVALID')
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(401);
+    });
+
+    it('POST /contacts/ - Should return 422 Unprocessable Entity', async () => {
+        // payload
+        const payload = {
+            nonexistent: 'params'
+        };
+        // call http method
+        const result = await request(app)
+                                .post('/contacts/')
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(422);
+    }); 
+
+
     it('GET /contacts - Should return 200 OK and array', async () => {
         // call http method
         const result = await request(app)
@@ -82,7 +142,7 @@ describe('Testing contacts routes', () => {
         // check 
         expect(result.status).toEqual(401);
     });
-    
+
 
     it('GET /contacts/:id - Should return 200 OK + Object', async () => {
         // call http method

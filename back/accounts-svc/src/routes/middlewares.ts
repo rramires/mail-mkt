@@ -1,8 +1,5 @@
 // imports
 import { Request, Response } from "express";
-import Joi from "joi";
-//
-import auth from "../auth";
 import middlewaresCommons from 'mm-commons/api/routes/middlewares';
 //
 import { accountSchema, accountUpdateSchema, loginSchema } from "../models/accountSchema";
