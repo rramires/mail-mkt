@@ -18,9 +18,8 @@ let idContactTest = 0;
 
 // 
 beforeAll(async () => {
-    
-    // mocking
-    const payload = {
+    // mocking account
+    const testAccount = {
         name: 'Jest',
         email: emailTest,
         password: passTest,
@@ -29,7 +28,7 @@ beforeAll(async () => {
     // call http method - add test account
     const account = await request(accountsApp)
                             .post('/accounts')
-                            .send(payload);
+                            .send(testAccount);
     idAccountTest = account.body.id;
     // login
     const result = await request(accountsApp)
@@ -40,10 +39,24 @@ beforeAll(async () => {
                             });
     // get token
     token = result.body.token;
+    //
+    // mocking contact
+    const testContact = {
+        name: 'Jest',
+        email: emailTest,
+        phone: '4199999999',
+
+    } as IContact
+    // add test contact
+    const result2 = await repository.add(testContact, idAccountTest);
+    // set contact id
+    idContactTest = result2.id!;
 });
 //
 afterAll(async () => {
-    // remove test account created on "POST /accounts..."" test
+    // remove test contact 
+    await repository.remove(idContactTest, idAccountTest);
+    // remove test account 
     await await request(accountsApp).delete('/accounts/' + idAccountTest)
                                         .set('x-access-token', token);
 });
@@ -59,5 +72,52 @@ describe('Testing contacts routes', () => {
         // check 
         expect(result.status).toEqual(200);
         expect(Array.isArray(result.body)).toBeTruthy();
+    });
+
+    it('GET /contacts - Should return 401 Unauthorized', async () => {
+        // call http method
+        const result = await request(app)
+                                .get('/contacts/')
+                                .set('x-access-token', 'INVALID'); 
+        // check 
+        expect(result.status).toEqual(401);
+    });
+    
+
+    it('GET /contacts/:id - Should return 200 OK + Object', async () => {
+        // call http method
+        const result = await request(app)
+                                .get('/contacts/' + idContactTest)
+                                .set('x-access-token', token); 
+        // check 
+        expect(result.status).toEqual(200);
+        expect(result.body.id).toEqual(idContactTest);
+    });
+
+    it('GET /contacts/:id - Should return 404 Not Found', async () => {
+        // call http method
+        const result = await request(app)
+                                .get('/contacts/-1') // Invalid ID
+                                .set('x-access-token', token); 
+        // check 
+        expect(result.status).toEqual(404);
+    });
+
+    it('GET /contacts/:id - Should return 400 Bad Request', async () => {
+        // call http method
+        const result = await request(app)
+                                .get('/contacts/abc') // Invalid Format
+                                .set('x-access-token', token); 
+        // check 
+        expect(result.status).toEqual(400);
+    });
+
+    it('GET /contacts/:id - Should return 401 Unauthorized', async () => {
+        // call http method
+        const result = await request(app)
+                                .get('/contacts/' + idContactTest)
+                                .set('x-access-token', 'INVALID'); // Invalid Token
+        // check 
+        expect(result.status).toEqual(401);
     });
 });
