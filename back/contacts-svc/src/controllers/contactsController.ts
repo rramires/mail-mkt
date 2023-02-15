@@ -81,9 +81,42 @@ async function addContact(req: Request, res: Response, next: any){
         res.status(400).end();
     }
 }
+
+
+/**
+ * Update contact
+ */
+async function setContact(req: Request, res: Response, next: any){
+    try{
+        // get id
+        const id = parseInt(req.params.id);
+        if(!id){
+            throw new Error('ID is invalid format.');
+        }
+        // cast body to type
+        const contactParams = req.body as IContact;
+        // get auth token from res.locals 
+        const token = controllerCommons.getToken(res) as Token;
+        // update
+        const updatedContact = await repository.set(id, token.accountId, contactParams);
+        if(updatedContact){
+            // 200 OK + json
+            res.status(200).json(updatedContact);
+        }
+        else{
+            // 404 Not Found
+            res.status(404).end();
+        }
+    }
+    catch(error){
+        // 400 bad request
+        res.status(400).end();
+    }
+}
 //
 export default {
     addContact,
+    setContact,
     getContactsByAccountId,
     getContactById
 }

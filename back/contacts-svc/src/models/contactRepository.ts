@@ -35,6 +35,32 @@ async function add(contact: IContact, accountId: number){
 
 
 /**
+ * Update account
+ */
+async function set(id: number, accountId: number, contact: IContact){
+    const originalContact = await findById(id, accountId);
+
+    if(originalContact){
+        if(contact.name !== ''){
+            originalContact.name = contact.name;
+        }
+        if(contact.phone){
+            originalContact.phone = contact.phone;
+        }
+        if(contact.status){
+            originalContact.status = contact.status;
+        }
+        // save
+        await originalContact.save();
+        return originalContact;
+    }
+    else{
+        return null;
+    }
+}
+
+
+/**
  * Remove contact
  */
 async function remove(id: number, accountId: number){
@@ -44,6 +70,7 @@ async function remove(id: number, accountId: number){
 //
 export default {
     add,
+    set,
     remove,
     findById,
     findByAccountId,

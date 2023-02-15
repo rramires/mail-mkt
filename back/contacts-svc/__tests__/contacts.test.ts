@@ -7,16 +7,13 @@ import { IContact } from '../src/models/contact';
 import repository from '../src/models/contactRepository'
 //
 const emailTest = 'jest@contacts.com';
-const emailTest2 = 'jest2@contacts.com';
 const passTest = 'abc123'; 
 // mock .env parameter
 process.env.JWT_EXPIRES='300';
-// const hashPassTest = '$2a$12$fkAMJ7w/NOs9THhMezTjg.DwFuhTNq6Ayuo79SIShg5.MXTdzbrh6'; // <=> abc123
 // aux
 let idAccountTest = 0;
 let token = '';
 let idContactTest = 0;
-let idContactTest2 = 0;
 
 // 
 beforeAll(async () => {
@@ -180,4 +177,84 @@ describe('Testing contacts routes', () => {
         // check 
         expect(result.status).toEqual(401);
     });
+
+    it('PATCH /contacts/:id - Should return 200 OK', async () => {
+        // payload
+        const payload = {
+            name: 'Jest 2',
+            phone: '4198887777',
+            status: 200
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .patch('/contacts/' + idContactTest)
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(200);
+        expect(result.body.id).toBeTruthy();
+        expect(result.body.name).toEqual(payload.name);
+    });
+
+    it('PATCH /contacts/:id - Should return 401 Unauthorized', async () => {
+        // payload
+        const payload = {
+            name: 'Jest 2',
+            phone: '4198887777',
+            status: 200
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .patch('/contacts/' + idContactTest)
+                                .set('x-access-token', 'INVALID')
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(401);
+    });
+
+    it('PATCH /contacts/:id - Should return 422 Unprocessable Entity', async () => {
+        // payload
+        const payload = {
+            nonexistent: 'params'
+        };
+        // call http method
+        const result = await request(app)
+                                .patch('/contacts/' + idContactTest)
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(422);
+    });
+
+    it('PATCH /contacts/:id - Should return 404 Not Found', async () => {
+        // payload
+        const payload = {
+            name: 'Jest 2',
+            phone: '4198887777',
+            status: 200
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .patch('/contacts/-1')
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(404);
+    }); 
+
+    it('PATCH /contacts/:id - Should return 400 Bad Request', async () => {
+        // payload
+        const payload = {
+            name: 'Jest 2',
+            phone: '4198887777',
+            status: 200
+        } as IContact;
+        // call http method
+        const result = await request(app)
+                                .patch('/contacts/abc')
+                                .set('x-access-token', token)
+                                .send(payload); 
+        // check 
+        expect(result.status).toEqual(400);
+    }); 
 });

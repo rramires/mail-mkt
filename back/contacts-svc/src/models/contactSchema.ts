@@ -20,22 +20,23 @@ const contactSchema = Joi.object({
               .required(),
     phone: Joi.string()
                 .pattern(/^[0-9]{10,11}$/),
-    status: Joi.string()
+    status: Joi.number()
+                .integer()
                 .min(100)
-                .max(400)
+                .max(300)
 });
 
 
 const contactUpdateSchema = Joi.object({
     name: Joi.string()
              .min(3)
-             .max(160)
-             .required(),
+             .max(160),
     phone: Joi.string()
-                 .pattern(/^[0-9]{10,11}$/),
-    status: Joi.string()
-                 .min(100)
-                 .max(400)
+                .pattern(/^[0-9]{10,11}$/),
+    status: Joi.number()
+                .integer()
+                .min(100)
+                .max(300)
 });
 //
 export { 

@@ -26,5 +26,11 @@ router.get('/contacts', middlewareCommons.validateAuth, contactsController.getCo
  * POST add new contact
  */
 router.post('/contacts', middlewareCommons.validateAuth, validateContactSchema, contactsController.addContact);
+
+
+/**
+ * PATCH update contact
+ */
+router.patch('/contacts/:id', middlewareCommons.validateAuth, validateUpdateContactSchema, contactsController.setContact);
 //
 export default router;
