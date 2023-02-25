@@ -3,7 +3,9 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    Link
+    Link,
+    useParams,
+    useLocation
 } from 'react-router-dom';
 
 
@@ -71,20 +73,70 @@ function SignUp(){
 
 
 function Contacts(){
+    // paths
+    let { pathname } = useLocation();
     return (
         <div>
             <Menu />
             <h2>Contacts List</h2>
+            <ul>
+                <li>
+                    <Link to={`${pathname}/1`}>Contato A</Link>
+                </li>
+                <li>
+                    <Link to={`${pathname}/2`}>Contato B</Link>
+                </li>
+                <li>
+                    <Link to={`${pathname}/3`}>Contato C</Link>
+                </li>
+            </ul>
         </div>
     )
 }
 
 
 function Messages(){
+    // paths
+    let { pathname } = useLocation();
     return (
         <div>
             <Menu />
             <h2>Messages List</h2>
+            <ul>
+                <li>
+                    <Link to={`${pathname}/1`}>Message A</Link>
+                </li>
+                <li>
+                    <Link to={`${pathname}/2`}>Message B</Link>
+                </li>
+                <li>
+                    <Link to={`${pathname}/3`}>Message C</Link>
+                </li>
+            </ul>
+        </div>
+    )
+}
+
+
+function Contact(){
+    // params
+    let { contactId } = useParams();
+    return (
+        <div>
+            <Menu />
+            <h2>Contact: {contactId}</h2>
+        </div>
+    )
+}
+
+
+function Message(){
+    // params
+    let { messageId } = useParams();
+    return (
+        <div>
+            <Menu />
+            <h2>Message: {messageId}</h2>
         </div>
     )
 }
@@ -111,16 +163,16 @@ function Messages(){
 export default function AppRoutes(){
     return (
         <BrowserRouter>
-            <div>
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/logout" element={<Logout />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/contacts" element={<Contacts />} />
-                    <Route path="/messages" element={<Messages />} />
-                </Routes>
-            </div>
+            <Routes>
+                <Route exact path="/" element={<Dashboard />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/logout" element={<Logout />} />
+                <Route exact path="/signup" element={<SignUp />} />
+                <Route exact path="/contacts" element={<Contacts />} />
+                <Route exact path="/messages" element={<Messages />} />
+                <Route path="/contacts/:contactId" element={<Contact />} />
+                <Route path="/messages/:messageId" element={<Message />} />
+            </Routes>
         </BrowserRouter>
     )
 }
