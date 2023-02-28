@@ -3,143 +3,19 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    Link,
-    useParams,
-    useLocation
 } from 'react-router-dom';
-
-
-function Menu(){
-    return (
-        <ul>
-            <li>
-                <Link to="/">Dashboard</Link>
-            </li>
-            <li>
-                <Link to="/messages">Messages</Link>
-            </li>
-            <li>
-                <Link to="/contacts">Contacts</Link>
-            </li>
-            <li>
-                <Link to="/signup">SignUp</Link>
-            </li>
-            <li>
-                <Link to="/login">Login</Link>
-            </li>
-            <li>
-                <Link to="/logout">Logout</Link>
-            </li>             
-        </ul>
-    )
-}
-
-
-function Dashboard(){
-    return (
-        <div>
-            <Menu />
-            <h2>Dashboard</h2>
-        </div>
-    )
-}
-
-
-function Login(){
-    return (
-        <div>
-            <h2>Login</h2>
-        </div>
-    )
-}
-
-
-function Logout(){
-    return (
-        <div>
-            <h2>Logout</h2>
-        </div>
-    )
-}
-
-
-function SignUp(){
-    return (
-        <div>
-            <h2>User Registration</h2>
-        </div>
-    )
-}
-
-
-function Contacts(){
-    // paths
-    let { pathname } = useLocation();
-    return (
-        <div>
-            <Menu />
-            <h2>Contacts List</h2>
-            <ul>
-                <li>
-                    <Link to={`${pathname}/1`}>Contato A</Link>
-                </li>
-                <li>
-                    <Link to={`${pathname}/2`}>Contato B</Link>
-                </li>
-                <li>
-                    <Link to={`${pathname}/3`}>Contato C</Link>
-                </li>
-            </ul>
-        </div>
-    )
-}
-
-
-function Messages(){
-    // paths
-    let { pathname } = useLocation();
-    return (
-        <div>
-            <Menu />
-            <h2>Messages List</h2>
-            <ul>
-                <li>
-                    <Link to={`${pathname}/1`}>Message A</Link>
-                </li>
-                <li>
-                    <Link to={`${pathname}/2`}>Message B</Link>
-                </li>
-                <li>
-                    <Link to={`${pathname}/3`}>Message C</Link>
-                </li>
-            </ul>
-        </div>
-    )
-}
-
-
-function Contact(){
-    // params
-    let { contactId } = useParams();
-    return (
-        <div>
-            <Menu />
-            <h2>Contact: {contactId}</h2>
-        </div>
-    )
-}
-
-
-function Message(){
-    // params
-    let { messageId } = useParams();
-    return (
-        <div>
-            <Menu />
-            <h2>Message: {messageId}</h2>
-        </div>
-    )
-}
+//
+// public pages
+import Login from './pages/public/Login';
+import Logout from './pages/public/Login/logout';
+import SignUp from './pages/public/SignUp';
+//
+// private pages
+import Dashboard from './pages/private/Dashboard';
+import Messages from './pages/private/Messages';
+import Message from './pages/private/Messages/message';
+import Contacts from './pages/private/Contacts';
+import Contact from "./pages/private/Contacts/contact";
 
 
 /**
