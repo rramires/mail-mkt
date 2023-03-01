@@ -46,7 +46,7 @@ class Login extends React.Component{
                                     <Form.Control type="password" 
                                                 placeholder="Type your password"/>
                                 </Form.Group>
-                                <Form.Group className="d-grid mt-3">
+                                <Form.Group className="d-grid mt-2">
                                     <Button type="submit">
                                         Login
                                     </Button>

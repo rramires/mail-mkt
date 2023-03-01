@@ -9,7 +9,8 @@ import {
     Row,
     Col,
     Form,
-    Button } from "react-bootstrap";
+    Button,
+    Alert } from "react-bootstrap";
 //
 import { BoxContent, BoxForm } from '../../styles/styles';
 //
@@ -17,9 +18,32 @@ import MMLogo from '../../../assets/mmLogo.png';
 //
 class SignUp extends React.Component{
     //
+    state = {
+        name: '',
+        email: '',
+        password: '',
+        domain: '',
+        error: '',
+        isLoading: false
+    }
+    //
     onFormSubmit = async (event) =>{
         event.preventDefault();
-        alert('SignUp->onSubmit: ');
+        //alert('SignUp->onSubmit: ');
+        const { name, email, password, domain, isLoading } = this.state;
+        alert( name + email + password + domain + isLoading );
+    }
+    //
+    onFieldChange(event){
+        this.setState({[event.target.id]: event.target.value});
+    } 
+    //
+    renderError(){
+        return (
+            <Alert variant="danger" className="mt-4">
+                { this.state.error }
+            </Alert>
+        )
     }
     render(){
         return(
@@ -38,25 +62,34 @@ class SignUp extends React.Component{
                                   onSubmit={this.onFormSubmit}>
                                 <Form.Group controlId="nameGroup">
                                     <Form.Label>Name:</Form.Label>
-                                    <Form.Control type="text" 
-                                                placeholder="Type your name"/>
+                                    <Form.Control id="name"
+                                                  type="text"
+                                                  placeholder="Type your name"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="emailGroup">
                                     <Form.Label>E-mail:</Form.Label>
-                                    <Form.Control type="email" 
-                                                placeholder="Type your e-mail"/>
+                                    <Form.Control id="email"
+                                                  type="email" 
+                                                  placeholder="Type your e-mail"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="domainGroup">
                                     <Form.Label>Domain:</Form.Label>
-                                    <Form.Control type="url" 
-                                                placeholder="Type your domain"/>
+                                    <Form.Control id="domain"
+                                                  type="url" 
+                                                  placeholder="Type your domain"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="passwordGroup">
                                     <Form.Label>Password:</Form.Label>
-                                    <Form.Control type="password" 
-                                                placeholder="Type your password"/>
+                                    <Form.Control id="password"
+                                                  type="password" 
+                                                  placeholder="Type your password"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
-                                <Form.Group className="d-grid mt-3">
+                                { this.state.error && this.renderError() }
+                                <Form.Group className="d-grid mt-2">
                                     <Button type="submit">
                                         Sign Up
                                     </Button>
