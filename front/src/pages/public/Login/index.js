@@ -11,7 +11,7 @@ import {
     Form,
     Button } from "react-bootstrap";
 //
-import { BoxContent, BoxForm } from './styles';
+import { BoxContent, BoxForm } from '../../styles/styles';
 //
 import MMLogo from '../../../assets/mmLogo.png';
 //
@@ -19,7 +19,7 @@ class Login extends React.Component{
     //
     onFormSubmit = async (event) =>{
         event.preventDefault();
-        alert('onSubmit: ');
+        alert('Login->onSubmit: ');
     }
     render(){
         return (
@@ -34,7 +34,8 @@ class Login extends React.Component{
                         <BoxForm>
                             <h2>Login</h2>
                             <p>Enter your credentials</p>
-                            <Form onSubmit={this.onFormSubmit}>
+                            <Form className="d-grid gap-2" 
+                                  onSubmit={this.onFormSubmit}>
                                 <Form.Group controlId="emailGroup">
                                     <Form.Label>E-mail:</Form.Label>
                                     <Form.Control type="email" 
