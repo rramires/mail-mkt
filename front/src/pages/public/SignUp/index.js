@@ -27,13 +27,6 @@ class SignUp extends React.Component{
         isLoading: false
     }
     //
-    onFormSubmit = async (event) =>{
-        event.preventDefault();
-        //alert('SignUp->onSubmit: ');
-        const { name, email, password, domain, isLoading } = this.state;
-        alert( name + email + password + domain + isLoading );
-    }
-    //
     onFieldChange(event){
         this.setState({[event.target.id]: event.target.value});
     } 
@@ -45,6 +38,19 @@ class SignUp extends React.Component{
             </Alert>
         )
     }
+    //
+    onFormSubmit = async (event) =>{
+        event.preventDefault();
+        const { name, email, password, domain, isLoading } = this.state;
+        // validate
+        if(!name || !email || !password || !domain) {
+            this.setState({error: 'All fields must be filled!'});
+        }
+        else{
+            this.setState({error: ''});
+        }
+    }
+    //
     render(){
         return(
             <Container>
