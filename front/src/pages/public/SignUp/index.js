@@ -16,6 +16,9 @@ import { BoxContent, BoxForm } from '../../styles/styles';
 //
 import MMLogo from '../../../assets/mmLogo.png';
 //
+import withRouter from '../../utils/withRouter';
+import api from '../../services/api';
+//
 class SignUp extends React.Component{
     //
     state = {
@@ -39,8 +42,9 @@ class SignUp extends React.Component{
         )
     }
     //
-    onFormSubmit = async (event) =>{
+    onSignInSubmit = async (event) =>{
         event.preventDefault();
+        //
         const { name, email, password, domain, isLoading } = this.state;
         // validate
         if(!name || !email || !password || !domain) {
@@ -48,6 +52,18 @@ class SignUp extends React.Component{
         }
         else{
             this.setState({error: ''});
+            try{
+                // insert
+                await api.post('accounts', {
+                    name, email, password, domain
+                });
+                // redirect to Login
+                this.props.navigate('/login');
+            }
+            catch(error){
+                console.error('onFormSubmit: ', error);
+                this.setState({error: 'Error registering!'});
+            }
         }
     }
     //
@@ -65,7 +81,7 @@ class SignUp extends React.Component{
                             <h2>Registration</h2>
                             <p>Enter your registration data</p>
                             <Form className="d-grid gap-2"
-                                  onSubmit={this.onFormSubmit}>
+                                  onSubmit={this.onSignInSubmit}>
                                 <Form.Group controlId="nameGroup">
                                     <Form.Label>Name:</Form.Label>
                                     <Form.Control id="name"
@@ -113,4 +129,4 @@ class SignUp extends React.Component{
     }
 }
 //
-export default SignUp;
+export default withRouter(SignUp);

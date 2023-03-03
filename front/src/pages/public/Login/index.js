@@ -9,17 +9,63 @@ import {
     Row,
     Col,
     Form,
-    Button } from "react-bootstrap";
+    Button,
+    Alert } from "react-bootstrap";
 //
 import { BoxContent, BoxForm } from '../../styles/styles';
 //
 import MMLogo from '../../../assets/mmLogo.png';
 //
+import withRouter from '../../utils/withRouter';
+import api from '../../services/api';
+import { login } from '../../services/auth';
+//
 class Login extends React.Component{
     //
-    onFormSubmit = async (event) =>{
+    state = {
+        email: '',
+        password: '',
+        error: '',
+        isLoading: false
+    }
+    //
+    onFieldChange(event){
+        this.setState({[event.target.id]: event.target.value});
+    }
+    //
+    renderError(){
+        return (
+            <Alert variant="danger" className="mt-4">
+                { this.state.error }
+            </Alert>
+        )
+    }
+    //
+    onLoginSubmit = async (event) =>{
         event.preventDefault();
-        alert('Login->onSubmit: ');
+        //
+        const { email, password } = this.state;
+        // validate
+        if(!email || !password) {
+            this.setState({error: 'All fields must be filled!'});
+        }
+        else{
+            //this.setState({error: ''});
+            try{
+                // login
+                const response = await api.post('accounts/login', {
+                    email, password
+                });
+                // set token
+                login(response.data.token);
+                // redirect to Dashboard
+                this.props.navigate('/');
+            }
+            catch(error){
+                console.log('onLoginSubmit: ', error);
+                this.setState({error: 'Login Fail!'});
+            }
+        }
     }
     render(){
         return (
@@ -35,17 +81,22 @@ class Login extends React.Component{
                             <h2>Login</h2>
                             <p>Enter your credentials</p>
                             <Form className="d-grid gap-2" 
-                                  onSubmit={this.onFormSubmit}>
+                                  onSubmit={this.onLoginSubmit}>
                                 <Form.Group controlId="emailGroup">
                                     <Form.Label>E-mail:</Form.Label>
-                                    <Form.Control type="email" 
-                                                placeholder="Type your e-mail"/>
+                                    <Form.Control id="email"
+                                                  type="email" 
+                                                  placeholder="Type your e-mail"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="passwordGroup">
                                     <Form.Label>Password:</Form.Label>
-                                    <Form.Control type="password" 
-                                                placeholder="Type your password"/>
+                                    <Form.Control id="password"
+                                                  type="password" 
+                                                  placeholder="Type your password"
+                                                  onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
+                                { this.state.error && this.renderError() }
                                 <Form.Group className="d-grid mt-2">
                                     <Button type="submit">
                                         Login
@@ -62,6 +113,6 @@ class Login extends React.Component{
             </Container>
         )
     }
-}
+} 
 //
-export default Login;
+export default withRouter(Login);
