@@ -5,7 +5,7 @@ import {
     useLocation
 } from 'react-router-dom';
 //
-import Menu from "../../public/Menu";
+import Menu from "../../../shared/Menu";
 //
 function MessagesWrapper(){
     // paths

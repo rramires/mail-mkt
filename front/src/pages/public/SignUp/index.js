@@ -12,11 +12,11 @@ import {
     Button,
     Alert } from "react-bootstrap";
 //
-import { BoxContent, BoxForm } from '../../styles/styles';
+import { BoxContent, BoxForm } from '../../../shared/Styles';
 //
 import MMLogo from '../../../assets/mmLogo.png';
 //
-import withRouter from '../../utils/withRouter';
+import withRouter from '../../../shared/utils/withRouter';
 import api from '../../services/api';
 //
 class SignUp extends React.Component{

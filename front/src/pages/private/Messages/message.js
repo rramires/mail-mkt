@@ -5,7 +5,7 @@ import {
 
 } from 'react-router-dom';
 //
-import Menu from "../../public/Menu";
+import Menu from "../../../shared/Menu";
 //
 function MessageWrapper(){
     // params

@@ -1,6 +1,6 @@
 import React from "react";
 //
-import Menu from "../../public/Menu";
+import Menu from "../../../shared/Menu";
 //
 class Dashboard extends React.Component{
     render(){

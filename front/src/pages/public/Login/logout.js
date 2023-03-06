@@ -1,6 +1,18 @@
 import React from "react";
 //
+import withRouter from '../../../shared/utils/withRouter';
+//
+import { logout } from '../../services/auth';
+//
 class Logout extends React.Component{
+    // call logout
+    componentDidMount(){
+        logout();
+        setTimeout(() => {
+            this.props.navigate('/login');
+        }, 1000);
+    }
+    //
     render(){
         return(
             <div>
@@ -10,4 +22,4 @@ class Logout extends React.Component{
     }
 }
 //
-export default Logout;
+export default withRouter(Logout);
