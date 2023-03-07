@@ -5,14 +5,14 @@ import {
 
 } from 'react-router-dom';
 //
-import Menu from "../../../shared/Menu";
+import HeaderMenu from "../../../shared/Header";
 //
 function ContactWrapper(){
     // params
     let { contactId } = useParams();
     return (
         <div>
-            <Menu />
+            <HeaderMenu />
             <h2>Contact: {contactId}</h2>
         </div>
     )

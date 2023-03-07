@@ -5,14 +5,14 @@ import {
 
 } from 'react-router-dom';
 //
-import Menu from "../../../shared/Menu";
+import HeaderMenu from "../../../shared/Header";
 //
 function MessageWrapper(){
     // params
     let { messageId } = useParams();
     return (
         <div>
-            <Menu />
+            <HeaderMenu />
             <h2>Message: {messageId}</h2>
         </div>
     )
