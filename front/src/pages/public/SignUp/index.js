@@ -17,7 +17,7 @@ import { BoxContent, BoxForm } from '../../../shared/Styles';
 import MMLogo from '../../../assets/mmLogo.png';
 //
 import withRouter from '../../../shared/utils/withRouter';
-import api from '../../services/api';
+import AccountsService from '../../services/accounts';
 //
 class SignUp extends React.Component{
     //
@@ -53,8 +53,9 @@ class SignUp extends React.Component{
         else{
             this.setState({error: ''});
             try{
-                // insert
-                await api.post('accounts', {
+                const service = new AccountsService();
+                // call insert service
+                const response = await service.signUp({
                     name, email, password, domain
                 });
                 // redirect to Login

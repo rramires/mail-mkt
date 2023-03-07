@@ -17,7 +17,7 @@ import { BoxContent, BoxForm } from '../../../shared/Styles';
 import MMLogo from '../../../assets/mmLogo.png';
 //
 import withRouter from '../../../shared/utils/withRouter';
-import api from '../../services/api';
+import AccountsService from '../../services/accounts';
 import { login } from '../../services/auth';
 //
 class Login extends React.Component{
@@ -50,12 +50,10 @@ class Login extends React.Component{
             this.setState({error: 'All fields must be filled!'});
         }
         else{
-            //this.setState({error: ''});
             try{
-                // login
-                const response = await api.post('accounts/login', {
-                    email, password
-                });
+                const service = new AccountsService();
+                // call login service
+                const response = await service.login(email, password);
                 // set token
                 login(response.data.token);
                 // redirect to Dashboard
