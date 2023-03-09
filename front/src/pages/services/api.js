@@ -1,6 +1,6 @@
 import axios from "axios";
 //
-import { getToken } from './auth';
+import { getToken, logout } from './auth';
 
 /**
  * Create and return Axios instance with API URL
@@ -22,6 +22,19 @@ const baseApi = (baseURL) =>{
             config.headers['x-access-token'] = token;
         }
         return config;
+    });
+
+
+    /**
+     * Remove token if status 401 returned
+     */
+    api.interceptors.response.use(null, function (error) {
+        // check 401 error status 
+        if(error.response.status === 401){
+            // clear localstorage token
+            logout();
+        }
+        return error;
     });
     //
     return api;

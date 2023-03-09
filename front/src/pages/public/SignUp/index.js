@@ -21,13 +21,17 @@ import AccountsService from '../../services/accounts';
 //
 class SignUp extends React.Component{
     //
-    state = {
-        name: '',
-        email: '',
-        password: '',
-        domain: '',
-        error: '',
-        isLoading: false
+    constructor(props){
+        super(props);
+        //
+        this.state = {
+            name: '',
+            email: '',
+            password: '',
+            domain: '',
+            error: '',
+            isLoading: false
+        }
     }
     //
     onFieldChange(event){

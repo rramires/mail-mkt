@@ -22,11 +22,15 @@ import { login } from '../../services/auth';
 //
 class Login extends React.Component{
     //
-    state = {
-        email: '',
-        password: '',
-        error: '',
-        isLoading: false
+    constructor(props){
+        super(props);
+        //
+        this.state = {
+            email: '',
+            password: '',
+            error: '',
+            isLoading: false
+        }
     }
     //
     onFieldChange(event){
