@@ -2,7 +2,7 @@ import React from "react";
 //
 import withRouter from '../../../shared/utils/withRouter';
 //
-import { logout } from '../../services/auth';
+import { logout } from '../../services/AuthToken';
 //
 class Logout extends React.Component{
     // call logout

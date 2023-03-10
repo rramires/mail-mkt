@@ -1,11 +1,11 @@
 import axios from "axios";
 //
-import { getToken, logout } from './auth';
+import { getToken, logout } from './AuthToken';
 
 /**
  * Create and return Axios instance with API URL
  */
-const baseApi = (baseURL) =>{
+const BaseAPI = (baseURL) =>{
 
     /**
      * Create API instance
@@ -40,4 +40,4 @@ const baseApi = (baseURL) =>{
     return api;
 }
 //
-export default baseApi;
+export default BaseAPI;

@@ -4,10 +4,10 @@ import { Container } from "react-bootstrap";
 //
 import withRouter from '../../../shared/utils/withRouter';
 //
-import HeaderMenu from "../../../shared/Header";
-import { PageContent } from '../../../shared/Styles';
+import HeaderMenu from "../../../shared/Header/HeaderMenu";
+import { PageContent } from '../../../shared/Styles/commons';
 //
-class Dashboard extends React.Component{
+class DashboardHome extends React.Component{
     render(){
         return(
             <React.Fragment>
@@ -22,4 +22,4 @@ class Dashboard extends React.Component{
     }
 }
 
-export default withRouter(Dashboard);
+export default withRouter(DashboardHome);

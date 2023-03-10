@@ -1,10 +1,10 @@
-import baseAPI from './api';
+import BaseAPI from './BaseAPI';
 import baseURLs from '../../config/baseURLs';
 //
 class ContactsService{
     //
     constructor(){
-        this.api = baseAPI(baseURLs.API_CONTACTS);
+        this.api = BaseAPI(baseURLs.API_CONTACTS);
     }
 
 

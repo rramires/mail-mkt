@@ -11,13 +11,12 @@ import {
     Row,
     Col } from "react-bootstrap";      
 //
-import { PageContent } from '../../../shared/Styles';
+import { PageContent } from '../../../shared/Styles/commons';
 //
-import HeaderMenu from "../../../shared/Header";
+import HeaderMenu from "../../../shared/Header/HeaderMenu";
 import withRouter from '../../../shared/utils/withRouter';
 //
-import ContactsService from '../../services/contacts';
-//
+import ContactsService from '../../services/ContactsService';
 //
 function RenderEmpty(){
     return(
@@ -64,7 +63,7 @@ function RenderTable({ contacts }) {
     );
 }
 //
-class Contacts extends React.Component{
+class ContactsList extends React.Component{
     //
     constructor(props){
         super(props);
@@ -87,10 +86,11 @@ class Contacts extends React.Component{
             }); 
         }
         catch(error){
-            
+            //
             switch(error.response.status){
                 case 401: // if token expired, redirect to login
                     this.props.navigate('/login');
+                break;
                 default:
                     console.log('ContactsService->getAllContacts error: ', error);
             }
@@ -122,4 +122,4 @@ class Contacts extends React.Component{
     }
 }
 //
-export default withRouter(Contacts);
+export default withRouter(ContactsList);

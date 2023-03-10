@@ -5,7 +5,7 @@ import {
     useLocation
 } from 'react-router-dom';
 //
-import HeaderMenu from "../../../shared/Header";
+import HeaderMenu from "../../../shared/Header/HeaderMenu";
 //
 function MessagesWrapper(){
     // paths
@@ -29,10 +29,10 @@ function MessagesWrapper(){
     )
 }
 //
-class Messages extends React.Component{
+class MessagesList extends React.Component{
     render(){
         return <MessagesWrapper />
     }
 }
 //
-export default Messages;
+export default MessagesList;

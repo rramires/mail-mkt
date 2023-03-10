@@ -1,10 +1,10 @@
-import baseAPI from './api';
+import BaseAPI from './BaseAPI';
 import baseURLs from '../../config/baseURLs';
 //
 class AccountsService{
     //
     constructor(){
-        this.api = baseAPI(baseURLs.API_ACCOUNTS);
+        this.api = BaseAPI(baseURLs.API_ACCOUNTS);
     }
 
 

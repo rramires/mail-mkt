@@ -5,7 +5,7 @@ import {
 
 } from 'react-router-dom';
 //
-import HeaderMenu from "../../../shared/Header";
+import HeaderMenu from "../../../shared/Header/HeaderMenu";
 //
 function MessageWrapper(){
     // params
@@ -18,10 +18,10 @@ function MessageWrapper(){
     )
 }
 //
-class Message extends React.Component{
+class MessageDeail extends React.Component{
     render(){
         return <MessageWrapper />
     }
 }
 //
-export default Message;
+export default MessageDeail;

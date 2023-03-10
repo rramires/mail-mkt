@@ -5,7 +5,7 @@ import {
 
 } from 'react-router-dom';
 //
-import HeaderMenu from "../../../shared/Header";
+import HeaderMenu from "../../../shared/Header/HeaderMenu";
 //
 function ContactWrapper(){
     // params
@@ -18,10 +18,10 @@ function ContactWrapper(){
     )
 }
 //
-class Contact extends React.Component{
+class ContactDetail extends React.Component{
     render(){
         return <ContactWrapper />
     }
 }
 //
-export default Contact;
+export default ContactDetail;

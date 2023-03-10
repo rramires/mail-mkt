@@ -12,23 +12,22 @@ import {
     Button,
     Alert } from "react-bootstrap";
 //
-import { BoxContent, BoxForm } from '../../../shared/Styles';
+import { BoxContent, BoxForm } from '../../../shared/Styles/commons';
 //
 import MMLogo from '../../../assets/mmLogo.png';
 //
 import withRouter from '../../../shared/utils/withRouter';
-import AccountsService from '../../services/accounts';
+import AccountsService from '../../services/AccountsService';
+import { login } from '../../services/AuthToken';
 //
-class SignUp extends React.Component{
+class Login extends React.Component{
     //
     constructor(props){
         super(props);
         //
         this.state = {
-            name: '',
             email: '',
             password: '',
-            domain: '',
             error: '',
             isLoading: false
         }
@@ -36,7 +35,7 @@ class SignUp extends React.Component{
     //
     onFieldChange(event){
         this.setState({[event.target.id]: event.target.value});
-    } 
+    }
     //
     renderError(){
         return (
@@ -46,34 +45,32 @@ class SignUp extends React.Component{
         )
     }
     //
-    onSignInSubmit = async (event) =>{
+    onLoginSubmit = async (event) =>{
         event.preventDefault();
         //
-        const { name, email, password, domain, isLoading } = this.state;
+        const { email, password } = this.state;
         // validate
-        if(!name || !email || !password || !domain) {
+        if(!email || !password) {
             this.setState({error: 'All fields must be filled!'});
         }
         else{
-            this.setState({error: ''});
             try{
                 const service = new AccountsService();
-                // call insert service
-                const response = await service.signUp({
-                    name, email, password, domain
-                });
-                // redirect to Login
-                this.props.navigate('/login');
+                // call login service
+                const response = await service.login(email, password);
+                // set token
+                login(response.data.token);
+                // redirect to Dashboard
+                this.props.navigate('/');
             }
             catch(error){
-                console.error('onFormSubmit: ', error);
-                this.setState({error: 'Error registering!'});
+                console.log('onLoginSubmit: ', error);
+                this.setState({error: 'Login Fail!'});
             }
         }
     }
-    //
     render(){
-        return(
+        return (
             <Container>
                 <Row className="justify-content-md-center">
                     <Col xs={12} md={6}>
@@ -83,29 +80,15 @@ class SignUp extends React.Component{
                                  alt="MailMarket Logo"/>
                         </BoxContent>
                         <BoxForm>
-                            <h2>Registration</h2>
-                            <p>Enter your registration data</p>
-                            <Form className="d-grid gap-2"
-                                  onSubmit={this.onSignInSubmit}>
-                                <Form.Group controlId="nameGroup">
-                                    <Form.Label>Name:</Form.Label>
-                                    <Form.Control id="name"
-                                                  type="text"
-                                                  placeholder="Type your name"
-                                                  onChange={e => this.onFieldChange(e)}/>
-                                </Form.Group>
+                            <h2>Login</h2>
+                            <p>Enter your credentials</p>
+                            <Form className="d-grid gap-2" 
+                                  onSubmit={this.onLoginSubmit}>
                                 <Form.Group controlId="emailGroup">
                                     <Form.Label>E-mail:</Form.Label>
                                     <Form.Control id="email"
                                                   type="email" 
                                                   placeholder="Type your e-mail"
-                                                  onChange={e => this.onFieldChange(e)}/>
-                                </Form.Group>
-                                <Form.Group controlId="domainGroup">
-                                    <Form.Label>Domain:</Form.Label>
-                                    <Form.Control id="domain"
-                                                  type="url" 
-                                                  placeholder="Type your domain"
                                                   onChange={e => this.onFieldChange(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="passwordGroup">
@@ -118,20 +101,20 @@ class SignUp extends React.Component{
                                 { this.state.error && this.renderError() }
                                 <Form.Group className="d-grid mt-2">
                                     <Button type="submit">
-                                        Sign Up
+                                        Login
                                     </Button>
                                 </Form.Group>
                             </Form>
                         </BoxForm>
                         <BoxContent>
-                            <p>Already registered?</p>
-                            <Link className="button" to="/login">Back to Login</Link>
+                            <p>First Time Here?</p>
+                            <Link className="button" to="/signup">Create your account now</Link>
                         </BoxContent>
                     </Col>
-                </Row>  
+                </Row>
             </Container>
         )
     }
-}
+} 
 //
-export default withRouter(SignUp);
+export default withRouter(Login);

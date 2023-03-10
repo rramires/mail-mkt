@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Navigate } from "react-router-dom";
 //
-import { isAuthenticated } from "../pages/services/auth";
+import { isAuthenticated } from "../pages/services/AuthToken";
 
 
 /**
