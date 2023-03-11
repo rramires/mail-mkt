@@ -115,7 +115,6 @@ class ContactAdd extends React.Component{
                                     </Form>
                                 </BoxForm>
                                 <BoxContent>
-                                    <p>Lost here?</p>
                                     <Link className="button" to="/contacts">Back to Contacts</Link>
                                 </BoxContent>
                             </Col>
